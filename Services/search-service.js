@@ -2,8 +2,9 @@
 
 const connection = require("../Connections/connection");
 
-const patientServiceDef = {
-    getPatientByName
+const serviceDef = {
+    getPatientByName,
+    getReportByMonth
 }
 
 function getPatientByName(names){
@@ -20,4 +21,18 @@ function getPatientByName(names){
     });
 }
 
-module.exports = patientServiceDef;
+function getReportByMonth(month){
+    return new Promise((resolve,reject)=>{
+        let query = `SELECT * FROM encounters WHERE DATE_FORMAT(encounter_datetime,"%M")='${month}'`;
+        connection.getPool().then((pool)=>{
+            pool.getConnection((err,connection)=>{
+                connection.query(query,(err,rows)=>{
+                    if(err) reject(err);
+                    resolve(rows)
+                });
+            });
+        });
+    });
+}
+
+module.exports = serviceDef;

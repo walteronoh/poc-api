@@ -16,6 +16,14 @@ const init = async () => {
                 const name = request.query.name;
                 return patientService.getPatientByName(name);
             }
+        },
+        {
+            path:"/monthReport",
+            method:"GET",
+            handler:(request,h)=>{
+                const month = request.query.month;
+                return patientService.getReportByMonth(month);
+            }
         }
     ])
 
