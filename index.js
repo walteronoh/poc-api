@@ -5,7 +5,7 @@ const init = async () => {
 
     const server = Hapi.server({
         host: "localhost",
-        port: 8000
+        port: 8080
     });
 
     server.route([
@@ -23,6 +23,15 @@ const init = async () => {
             handler:(request,h)=>{
                 const month = request.query.month;
                 return patientService.getReportByMonth(month);
+            }
+        },
+        {
+            path:"/patientsStatus",
+            method:"GET",
+            handler:(request,h)=>{
+                const patient_status = request.query.status;
+                const month_year = request.query.reportDate;
+                return patientService.getPatientsByStatus(patient_status,month_year);
             }
         }
     ])
